@@ -27,7 +27,7 @@
           .then(response => response.json())
           .then(data => data)
           .then(data => data.data.filter(element => element.length > criterion.value))
-          .then(data => criterion.value.length > 0 ? out.innerHTML = data : out.innerHTML = 'no data');
+          .then(data => criterion.value.length > 0 ? out.innerHTML = data : out.innerHTML = 'please type number or substring');
       });
 
       BTNfilteredBySubstring.addEventListener("click", function() {
@@ -35,7 +35,7 @@
           .then(response => response.json())
           .then(data => data)
           .then(data => data.data.filter(element => register.checked ? element.includes(criterion.value) : element.toLowerCase().includes(criterion.value.toLowerCase()) ))
-          .then(data => criterion.value.length > 0 ? out.innerHTML = data : out.innerHTML = 'no data');
+          .then(data => criterion.value.length > 0 ? out.innerHTML = data : out.innerHTML = 'please type number or substring');
       });
     </script>
   </body>
