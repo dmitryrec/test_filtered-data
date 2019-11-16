@@ -10,9 +10,11 @@
     <input type="text" id="criterion" />
     <input type="checkbox" id="register"/>register
     <button id="filteredByLength">length</button>
-    <button id="filteredBySubsting">substing</button>
+    <button id="filteredBySubsting">substring</button>
     <hr />
-    <div id="out">no data</div>
+    <div id="out">
+      <h2>result:</h2>
+    </div>
 
     <script>
       const criterion = document.querySelector("#criterion");
@@ -27,7 +29,7 @@
           .then(response => response.json())
           .then(data => data)
           .then(data => data.data.filter(element => element.length > criterion.value))
-          .then(data => criterion.value.length > 0 ? out.innerHTML = data : out.innerHTML = 'please type number or substring');
+          .then(data => criterion.value.length > 0 ? data.map(element => out.innerHTML += element + '<br>') : alert('please type number or substring'));
       });
 
       BTNfilteredBySubstring.addEventListener("click", function() {
@@ -35,7 +37,7 @@
           .then(response => response.json())
           .then(data => data)
           .then(data => data.data.filter(element => register.checked ? element.includes(criterion.value) : element.toLowerCase().includes(criterion.value.toLowerCase()) ))
-          .then(data => criterion.value.length > 0 ? out.innerHTML = data : out.innerHTML = 'please type number or substring');
+          .then(data => criterion.value.length > 0 ? data.map(element => out.innerHTML += element + '<br>') : alert('please type number or substring'));
       });
     </script>
   </body>
