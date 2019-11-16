@@ -6,38 +6,44 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>filter_test</title>
   </head>
+
   <body>
     <input type="text" id="criterion" />
-    <input type="checkbox" id="register"/>register
+    <input type="checkbox" id="isCaseSensitive" />case sensitive</input>
     <button id="filteredByLength">length</button>
-    <button id="filteredBySubsting">substring</button>
+    <button id="filteredBySubstring">substring</button>
     <hr />
-    <h2>result:</h2>
-    <div id="out">
-    </div>
+    <h1>result:</h1>
+    <div id="out"></div>
 
     <script>
+      const url = `https://cors-anywhere.herokuapp.com/http://www.mrsoft.by/data.json`;
       const criterion = document.querySelector("#criterion");
       const BTNfilteredByLength = document.querySelector("#filteredByLength");
-      const BTNfilteredBySubstring = document.querySelector("#filteredBySubsting");
+      const BTNfilteredBySubstring = document.querySelector("#filteredBySubstring");
       const out = document.querySelector("#out");
-      const register = document.querySelector('#register');
-
-
-      BTNfilteredByLength.addEventListener("click", function() {
-        fetch("https://cors-anywhere.herokuapp.com/http://www.mrsoft.by/data.json")
+      const isCaseSensitive = document.querySelector("#isCaseSensitive");
+      const getData = () =>
+        fetch(url)
           .then(response => response.json())
-          .then(data => data)
-          .then(data => data.data.filter(element => element.length > criterion.value))
-          .then(data => criterion.value.length > 0 ? out.innerHTML = data : alert('please type number or substring'));
+          .then(response => response.data);
+
+      BTNfilteredByLength.addEventListener("click", async () => {
+        const data = await getData();
+        const filtered = criterion.value
+          ? data.filter(item => item.length > criterion.value)
+          : [];
+        out.innerHTML = filtered.length !== 0 ? filtered : "No available data";
       });
 
-      BTNfilteredBySubstring.addEventListener("click", function() {
-        fetch("https://cors-anywhere.herokuapp.com/http://www.mrsoft.by/data.json")
-          .then(response => response.json())
-          .then(data => data)
-          .then(data => data.data.filter(element => register.checked ? element.includes(criterion.value) : element.toLowerCase().includes(criterion.value.toLowerCase()) ))
-          .then(data => criterion.value.length > 0 ? out.innerHTML = data : alert('please type number or substring'));
+      BTNfilteredBySubstring.addEventListener("click", async () => {
+        const data = await getData();
+        const filtered = data.filter(d =>
+         isCaseSensitive.checked
+            ? d.includes(criterion.value)
+            : d.toLowerCase().includes(criterion.value.toLowerCase())
+        );
+        out.innerHTML = filtered.length !== 0 && criterion.value.length > 0 ? filtered : "No available data";
       });
     </script>
   </body>
