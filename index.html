@@ -38,10 +38,10 @@
 
       BTNfilteredBySubstring.addEventListener("click", async () => {
         const data = await getData();
-        const filtered = data.filter(d =>
+        const filtered = data.filter(item =>
          isCaseSensitive.checked
-            ? d.includes(criterion.value)
-            : d.toLowerCase().includes(criterion.value.toLowerCase())
+            ? item.includes(criterion.value)
+            : item.toLowerCase().includes(criterion.value.toLowerCase())
         );
         out.innerHTML = filtered.length !== 0 && criterion.value.length > 0 ? filtered : "No available data";
       });
